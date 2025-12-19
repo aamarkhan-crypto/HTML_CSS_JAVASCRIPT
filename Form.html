@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="stylesheet" href="style.css">
+    <title>Simple HTML Form</title>
+</head>
+<body>
+
+    <form id="contactForm" action="/submit-form" method="POST">
+        <h2>Contact Us</h2>
+        
+        <div>
+            <label for="name">Name:</label><br>
+            <input type="text" id="name" name="user_name" required>
+        </div>
+        <br>
+        
+        <div>
+            <label for="email">Email:</label><br>
+            <input type="email" id="email" name="user_email" required>
+        </div>
+        <br>
+
+        <div>
+            <label for="message">Message:</label><br>
+            <textarea id="message" name="user_message" rows="4" cols="50"></textarea>
+        </div>
+        <br>
+
+        <div>
+            <input type="checkbox" id="subscribe" name="subscribe_to_newsletter" value="yes">
+            <label for="subscribe">Subscribe to our newsletter</label>
+        </div>
+        <br>
+        
+        <div>
+            <button type="submit">Send Message</button>
+        </div>
+    </form>
+
+    <script>
+        // 1. Select the form and the inputs
+        const myForm = document.getElementById('contactForm');
+        const nameInput = document.getElementById('name');
+        const emailInput = document.getElementById('email');
+
+        // 2. Attach the logic to the submit button
+        myForm.addEventListener('submit', function(event) {
+            
+            // Check 1: Name must be at least 3 characters
+            const isNameValid = nameInput.value.trim().length >= 3;
+
+            // Check 2: Email must follow a valid pattern (text@text.domain)
+            const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            const isEmailValid = emailPattern.test(emailInput.value);
+
+            // 3. If either check fails, stop the form
+            if (!isNameValid || !isEmailValid) {
+                event.preventDefault(); // Prevents the form from submitting
+                
+                let message = "Please fix the following:\n";
+                if (!isNameValid) message += "- Name is too short (min 3 chars).\n";
+                if (!isEmailValid) message += "- Email format is invalid.\n";
+                
+                alert(message);
+            } else {
+                // If everything is correct
+                alert("Form submitted successfully!");
+            }
+        });
+    </script>
+
+</body>
+</html>
